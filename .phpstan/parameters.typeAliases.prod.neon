@@ -1,0 +1,25 @@
+parameters:
+	typeAliases:
+		robo-pamald-lock-differ-task-options: '''
+			array{
+				assetNamePrefix?: string,
+				leftPackages?: array<string, \Pamald\Pamald\PackageInterface>,
+				rightPackages?: array<string, \Pamald\Pamald\PackageInterface>,
+				lockDiffer?: ?\Pamald\Pamald\LockDiffer,
+			}
+		'''
+		robo-pamald-reporter-task-options: '''
+			array{
+				assetNamePrefix?: string,
+				lockDiffEntries?: array<string, \Pamald\Pamald\LockDiffEntry>,
+				reporter?: \Pamald\Pamald\ReporterInterface,
+			}
+		'''
+		robo-pamald-modify-commit-msg-parts-task-options: '''
+			array{
+				assetNamePrefix?: string,
+				sha1?: string,
+				patterns?: array<string>,
+				stateKeyCommitMsgParts?: string,
+			}
+		'''

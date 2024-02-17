@@ -1,0 +1,28 @@
+parameters:
+	typeAliases:
+		dummy-package-values: '''
+			array{
+				name: string,
+				type?: null|string,
+				versionString?: null|string,
+				typeOfRelationship?: null|string,
+				isDirectDependency?: null|bool,
+				homepage?: null|string,
+				vcsInfo?: null|array<string, mixed>,
+				issueTracker?: null|array<string, mixed>,
+			}
+		'''
+		cli-execute-result: '''
+			array{
+				exitCode: int<0, max>,
+				out: string,
+				err: string,
+			}
+		'''
+		php-executable: '''
+			array{
+				enabled: bool,
+				command: string,
+				envVars?: array<string, ?string>,
+			}
+		'''
