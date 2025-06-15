@@ -43,14 +43,17 @@ class ReporterTaskTest extends TaskTestBase
                 'expected' => [
                     'exitCode' => 0,
                     'exitMessage' => '',
+                    // phpcs:disable Generic.Files.LineLength.TooLong
                     'rendered' => <<< 'TEXT'
-                        +------+-----------+-----------+----------------+----------------+---------+---------+
-                        | Name | L Version | R Version | L Relationship | R Relationship | L Depth | R Depth |
-                        +------+-----------+-----------+----------------+----------------+---------+---------+
-                        | a/a  | 1.0.0     | 1.2.3     | prod           | prod           | child   | direct  |
-                        +------+-----------+-----------+----------------+----------------+---------+---------+
+                        +------+-----------+-----------+--------+--------+--------+--------+-------+-------+---------+---------+
+                        | Name | L Version | R Version | L Type | R Type | L Link | R Link | L Env | R Env | L Depth | R Depth |
+                        +------+-----------+-----------+--------+--------+--------+--------+-------+-------+---------+---------+
+                        | Other                                                                                                |
+                        | a/a  | 1.0.0     | 1.2.3     |        |        |        |        |       |       | child   | direct  |
+                        +------+-----------+-----------+--------+--------+--------+--------+-------+-------+---------+---------+
 
                         TEXT,
+                    // phpcs:enable Generic.Files.LineLength.TooLong
                 ],
                 'reporterOptions' => [],
                 'options' => [

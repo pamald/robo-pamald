@@ -8,6 +8,9 @@ namespace Pamald\Robo\Pamald\Task;
 
 use Sweetchuck\Git\CommitMsg\CommitMsgHandler;
 
+/**
+ * @phpstan-import-type SweetchuckGitCommitMsgPartModifier from \Sweetchuck\Git\Phpstan
+ */
 class CommitMsgParseTask extends TaskBase
 {
 
@@ -45,12 +48,12 @@ class CommitMsgParseTask extends TaskBase
 
     // region modifiers
     /**
-     * @phpstan-var array<string, sweetcuck-git-commit-msg-part-modifier>
+     * @phpstan-var array<string, SweetchuckGitCommitMsgPartModifier>
      */
     protected array $modifiers = [];
 
     /**
-     * @phpstan-return array<string, sweetcuck-git-commit-msg-part-modifier>
+     * @phpstan-return array<string, SweetchuckGitCommitMsgPartModifier>
      */
     public function getModifiers(): array
     {
@@ -58,7 +61,7 @@ class CommitMsgParseTask extends TaskBase
     }
 
     /**
-     * @phpstan-param array<string, sweetcuck-git-commit-msg-part-modifier> $modifiers
+     * @phpstan-param array<string, SweetchuckGitCommitMsgPartModifier> $modifiers
      */
     public function setModifiers(array $modifiers): static
     {

@@ -11,12 +11,12 @@ class LockDifferTask extends TaskBase
 
     // region leftPackages
     /**
-     * @var array<string, \Pamald\Pamald\PackageInterface>
+     * @var array<string, \Pamald\Pamald\DependencyInterface>
      */
     protected array $leftPackages = [];
 
     /**
-     * @return array<string, \Pamald\Pamald\PackageInterface>
+     * @return array<string, \Pamald\Pamald\DependencyInterface>
      */
     public function getLeftPackages(): array
     {
@@ -24,7 +24,7 @@ class LockDifferTask extends TaskBase
     }
 
     /**
-     * @param array<string, \Pamald\Pamald\PackageInterface> $leftPackages
+     * @param array<string, \Pamald\Pamald\DependencyInterface> $leftPackages
      */
     public function setLeftPackages(array $leftPackages): static
     {
@@ -36,12 +36,12 @@ class LockDifferTask extends TaskBase
 
     // region rightPackages
     /**
-     * @var array<string, \Pamald\Pamald\PackageInterface>
+     * @var array<string, \Pamald\Pamald\DependencyInterface>
      */
     protected array $rightPackages = [];
 
     /**
-     * @return array<string, \Pamald\Pamald\PackageInterface>
+     * @return array<string, \Pamald\Pamald\DependencyInterface>
      */
     public function getRightPackages(): array
     {
@@ -49,7 +49,7 @@ class LockDifferTask extends TaskBase
     }
 
     /**
-     * @param array<string, \Pamald\Pamald\PackageInterface> $rightPackages
+     * @param array<string, \Pamald\Pamald\DependencyInterface> $rightPackages
      */
     public function setRightPackages(array $rightPackages): static
     {

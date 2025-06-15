@@ -7,7 +7,7 @@ namespace Pamald\Robo\Pamald\Task;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Pamald\Pamald\LockDiffer;
-use Pamald\Pamald\PackageCollectorInterface;
+use Pamald\Pamald\DependencyCollectorInterface;
 use Pamald\Pamald\Reporter\MarkdownTableReporter;
 use Pamald\Robo\Pamald\PamaldTaskLoader;
 use Robo\Contract\BuilderAwareInterface;
@@ -18,6 +18,9 @@ use Sweetchuck\Robo\Git\GitTaskLoader;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Process\Process;
 
+/**
+ * @phpstan-import-type RoboPamaldModifyCommitMsgPartsTaskOptions from \Pamald\Robo\Pamald\Phpstan
+ */
 abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
     BuilderAwareInterface,
     ContainerAwareInterface,
@@ -101,7 +104,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
     /**
      * {@inheritdoc}
      *
-     * @phpstan-param robo-pamald-modify-commit-msg-parts-task-options $options
+     * @phpstan-param RoboPamaldModifyCommitMsgPartsTaskOptions $options
      */
     public function setOptions(array $options): static
     {
@@ -128,7 +131,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
 
         $packageManagerName = $this->getPackageManagerName();
         $lockFilePaths = $this->getLockFilePaths();
-        $packageCollector = $this->getPackageCollector();
+        $packageCollector = $this->getDependencyCollector();
         $lockDiffer = $this->getLockDiffer();
         $reporterStream = fopen('php://memory', 'w+');
         if (!$reporterStream) {
@@ -138,6 +141,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
             return $this;
         }
 
+        // @todo Configurable reporter.
         $reporter = new MarkdownTableReporter();
         $reporter->setStream($reporterStream);
         $reports = [];
@@ -203,10 +207,11 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
                 continue;
             }
 
-            if (!isset($reports[$lockFilePath])) {
+            if (empty($reports[$lockFilePath]['report'])) {
                 // This can happen with `git commit --amend`.
                 // A pamald report which is not relevant anymore.
                 $parts[$index]['enabled'] = false;
+                unset($reports[$lockFilePath]);
 
                 continue;
             }
@@ -223,6 +228,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
                 'packageManagerName' => $packageManagerName,
                 'lockFilePath' => $lockFilePath,
             ];
+
             $parts[$index] = $part;
             unset($reports[$lockFilePath]);
         }
@@ -231,8 +237,8 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
             ? $parts['footer_comment']['weight'] - count($reports)
             : count($parts);
         foreach ($reports as $lockFilePath => $info) {
-            $parts["unknown.pamald.$packageManagerName.$weight"] = [
-                'enabled' => true,
+            $parts["pamald.$packageManagerName.$weight"] = [
+                'enabled' => !empty($info['report']),
                 'weight' => $weight,
                 'type' => 'pamald',
                 'marginTop' => 1,
@@ -346,7 +352,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
         return $result['fileNames'] ?? [];
     }
 
-    abstract protected function getPackageCollector(): PackageCollectorInterface;
+    abstract protected function getDependencyCollector(): DependencyCollectorInterface;
 
     protected function getLockDiffer(): LockDiffer
     {

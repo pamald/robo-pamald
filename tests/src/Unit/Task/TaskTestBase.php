@@ -43,8 +43,8 @@ abstract class TaskTestBase extends TestCase
         Robo::configureContainer($this->container, $application, $this->config, $input, $output);
         $this->container->addShared('logger', BufferingLogger::class);
 
-        /** @var \Robo\Tasks $null */
         $null = null;
+        // @phpstan-ignore-next-line
         $this->builder = CollectionBuilder::create($this->container, $null);
         $this->taskBuilder = new DummyTaskBuilder();
         $this->taskBuilder->setContainer($this->container);

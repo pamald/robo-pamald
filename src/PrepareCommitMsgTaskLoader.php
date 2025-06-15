@@ -10,6 +10,9 @@ use Pamald\Robo\Pamald\Task\CommitMsgInitInputsTask;
 use Pamald\Robo\Pamald\Task\CommitMsgInitToolsTask;
 use Pamald\Robo\Pamald\Task\CommitMsgParseTask;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait PrepareCommitMsgTaskLoader
 {
 

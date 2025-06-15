@@ -3,8 +3,8 @@ parameters:
 		robo-pamald-lock-differ-task-options: '''
 			array{
 				assetNamePrefix?: string,
-				leftPackages?: array<string, \Pamald\Pamald\PackageInterface>,
-				rightPackages?: array<string, \Pamald\Pamald\PackageInterface>,
+				leftPackages?: array<string, \Pamald\Pamald\DependencyInterface>,
+				rightPackages?: array<string, \Pamald\Pamald\DependencyInterface>,
 				lockDiffer?: ?\Pamald\Pamald\LockDiffer,
 			}
 		'''

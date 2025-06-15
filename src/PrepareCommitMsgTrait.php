@@ -12,6 +12,9 @@ use Robo\Collection\Tasks as CollectionTaskLoader;
 use Robo\Contract\TaskInterface;
 use Robo\State\Data as RoboState;
 
+/**
+ * @phpstan-ignore trait.unused
+ */
 trait PrepareCommitMsgTrait
 {
     use CollectionTaskLoader;

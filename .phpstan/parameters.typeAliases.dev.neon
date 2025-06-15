@@ -3,9 +3,10 @@ parameters:
 		dummy-package-values: '''
 			array{
 				name: string,
-				type?: null|string,
+				type?: null|\Pamald\Pamald\DependencyType,
+				link?: null|\Pamald\Pamald\DependencyLink,
+				environment?: null|\Pamald\Pamald\DependencyEnvironment,
 				versionString?: null|string,
-				typeOfRelationship?: null|string,
 				isDirectDependency?: null|bool,
 				homepage?: null|string,
 				vcsInfo?: null|array<string, mixed>,

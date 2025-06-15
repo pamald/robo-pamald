@@ -5,10 +5,13 @@ declare(strict_types = 1);
 namespace Pamald\Robo\Pamald\Tests\Helper;
 
 use JsonSerializable;
-use Pamald\Pamald\PackageInterface;
+use Pamald\Pamald\DependencyEnvironment;
+use Pamald\Pamald\DependencyInterface;
+use Pamald\Pamald\DependencyLink;
+use Pamald\Pamald\DependencyType;
 use Sweetchuck\Utils\VersionNumber;
 
-class DummyPackage implements PackageInterface, JsonSerializable
+class DummyPackage implements DependencyInterface, JsonSerializable
 {
     protected ?VersionNumber $version;
 
@@ -17,8 +20,8 @@ class DummyPackage implements PackageInterface, JsonSerializable
      */
     public function __construct(protected array $values)
     {
-        $this->version = isset($this->values['versionString']) ?
-            VersionNumber::createFromString($this->values['versionString'])
+        $this->version = isset($this->values['versionString'])
+            ? VersionNumber::createFromString($this->values['versionString'])
             : null;
     }
 
@@ -38,9 +41,19 @@ class DummyPackage implements PackageInterface, JsonSerializable
         return $this->values['name'];
     }
 
-    public function type(): ?string
+    public function type(): ?DependencyType
     {
         return $this->values['type'] ?? null;
+    }
+
+    public function link(): ?DependencyLink
+    {
+        return $this->values['link'] ?? null;
+    }
+
+    public function environment(): ?DependencyEnvironment
+    {
+        return $this->values['environment'] ?? null;
     }
 
     public function versionString(): ?string
@@ -51,11 +64,6 @@ class DummyPackage implements PackageInterface, JsonSerializable
     public function version(): ?VersionNumber
     {
         return $this->version ?? null;
-    }
-
-    public function typeOfRelationship(): ?string
-    {
-        return $this->values['typeOfRelationship'] ?? null;
     }
 
     public function isDirectDependency(): ?bool

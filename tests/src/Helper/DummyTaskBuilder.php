@@ -26,9 +26,8 @@ class DummyTaskBuilder implements BuilderAwareInterface, ContainerAwareInterface
 
     public function collectionBuilder(): CollectionBuilder
     {
-        /** @var \Robo\Tasks $null */
         $null = null;
-
+        // @phpstan-ignore-next-line
         return CollectionBuilder::create($this->getContainer(), $null);
     }
 }
