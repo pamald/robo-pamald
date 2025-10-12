@@ -21,5 +21,6 @@ parameters:
 				sha1?: string,
 				patterns?: array<string>,
 				stateKeyCommitMsgParts?: string,
+				reporter?: null|(\Pamald\Pamald\ReporterInterface&\Pamald\Pamald\StreamAwareInterface),
 			}
 		'''

@@ -9,6 +9,8 @@ use League\Container\ContainerAwareTrait;
 use Pamald\Pamald\LockDiffer;
 use Pamald\Pamald\DependencyCollectorInterface;
 use Pamald\Pamald\Reporter\MarkdownTableReporter;
+use Pamald\Pamald\ReporterInterface;
+use Pamald\Pamald\StreamAwareInterface;
 use Pamald\Robo\Pamald\PamaldTaskLoader;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\State\StateAwareInterface;
@@ -101,6 +103,27 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
     }
     // endregion
 
+    // region Option - reporter
+    protected null|(ReporterInterface&StreamAwareInterface) $reporter = null;
+
+    public function getReporter(): null|(ReporterInterface&StreamAwareInterface)
+    {
+        return $this->reporter;
+    }
+
+    public function setReporter(null|(ReporterInterface&StreamAwareInterface) $reporter): static
+    {
+        $this->reporter = $reporter;
+
+        return $this;
+    }
+
+    protected function getFinalReporter(): ReporterInterface&StreamAwareInterface
+    {
+        return $this->getReporter() ?: new MarkdownTableReporter();
+    }
+    // endregion
+
     /**
      * {@inheritdoc}
      *
@@ -122,6 +145,10 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
             $this->setStateKeyCommitMsgParts($options['stateKeyCommitMsgParts']);
         }
 
+        if (array_key_exists('reporter', $options)) {
+            $this->setReporter($options['reporter']);
+        }
+
         return $this;
     }
 
@@ -141,8 +168,7 @@ abstract class ModifyCommitMsgPartsTaskBase extends TaskBase implements
             return $this;
         }
 
-        // @todo Configurable reporter.
-        $reporter = new MarkdownTableReporter();
+        $reporter = $this->getFinalReporter();
         $reporter->setStream($reporterStream);
         $reports = [];
         foreach ($lockFilePaths as $lockFilePath) {
